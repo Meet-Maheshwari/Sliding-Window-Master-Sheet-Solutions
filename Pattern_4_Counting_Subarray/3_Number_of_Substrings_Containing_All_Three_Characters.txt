@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        vector<int> lastSeen(3, -1);
+        int ans = 0;
+
+        for(int i = 0; i < s.size(); i++) {
+            int ch = s[i] - 'a';
+            lastSeen[ch] = i;
+
+            if(lastSeen[0] != -1 && lastSeen[1] != -1 && lastSeen[2] != -1) {
+                ans = ans + min(lastSeen[0], min(lastSeen[1], lastSeen[2])) + 1;
+            }
+        }
+
+        return ans;
+    }
+};
+
+
+🔹 LeetCode 1358 – Number of Substrings Containing All Three Characters
+This problem requires counting the number of substrings of the string s that contain at least one occurrence of each character 'a', 'b', and 'c'.
+
+✅ Approach:
+
+Maintain a vector lastSeen of size 3 to track the most recent indices where characters 'a', 'b', and 'c' appeared.
+
+Iterate over the string s:
+
+Update the last seen index for the current character.
+
+When all three characters have been seen at least once (none of the last seen indices are -1), the number of valid substrings ending at the current index is determined by the minimum of the three last seen positions.
+
+Add min(lastSeen[0], lastSeen[1], lastSeen[2]) + 1 to the answer:
+
+Because any substring that starts at or before this minimum index and ends at the current index contains all three characters.
+
+✅ Key Points:
+
+By keeping track of last seen indices, we efficiently count all valid substrings without enumerating each substring.
+
+The minimum last seen index ensures that all three characters are included in the substring.
+
+Time Complexity: O(n) — single pass through the string.
+
+Space Complexity: O(1) — fixed extra space for tracking indices.
+
+🧑‍💻 This logic is easy to implement in any programming language by maintaining the last occurrence positions and computing contributions to the result.

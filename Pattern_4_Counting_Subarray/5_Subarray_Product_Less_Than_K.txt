@@ -1,0 +1,57 @@
+class Solution {
+public:
+    int numSubarrayProductLessThanK(vector<int>& nums, int k) {
+        if(k <= 1) return 0;
+        int l = 0, r = 0, cnt = 0, prod = 1;
+
+        while(r < nums.size()) {
+            prod *= nums[r];
+
+            while(prod >= k) {
+                prod /= nums[l];
+                l++;
+            }
+
+            if(prod < k) {
+                cnt = cnt + (r - l + 1);
+            }
+
+            r++;
+        }   
+
+        return cnt;
+    }
+};
+
+🔹 LeetCode 713 – Subarray Product Less Than K
+This problem is part of the Sliding Window pattern focused on finding subarrays with a product constraint.
+
+Given an array nums and an integer k, the goal is to count the number of contiguous subarrays where the product of all elements is strictly less than k.
+
+✅ Approach:
+
+Use two pointers l and r to maintain a sliding window over the array.
+
+Keep a running product of elements in the current window.
+
+Expand the right pointer r and multiply the product by nums[r].
+
+If the product becomes greater than or equal to k, move the left pointer l forward, dividing the product by nums[l] until the product is less than k again.
+
+For every valid window (prod < k), add the number of subarrays ending at r which is (r - l + 1) to the count.
+
+Continue until r reaches the end of the array.
+
+✅ Key Points:
+
+The window always contains a product less than k.
+
+Counting (r - l + 1) subarrays for each valid r ensures all valid subarrays ending at r are included.
+
+Handles the edge case when k <= 1 by returning 0 immediately.
+
+Time Complexity: O(n), since each element is processed at most twice.
+
+Space Complexity: O(1), only constant extra space is used.
+
+🧑‍💻 The code is implemented in C++ but the sliding window technique applies to other languages with similar logic for product maintenance and window adjustments.

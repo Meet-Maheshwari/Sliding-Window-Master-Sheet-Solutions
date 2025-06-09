@@ -1,0 +1,65 @@
+class Solution {
+public:
+    //This problem is similar to question subArray Sum == k
+    //Here we are having 1's and 0's so with can use sum
+    
+    int subArraysWithGoal(vector<int>& nums, int goal) {
+        if(goal < 0) return 0;
+        int l = 0, r = 0, cnt = 0, sum = 0;
+
+        while(r < nums.size()) {
+            sum += nums[r];
+
+            while(sum > goal) {
+                sum = sum - nums[l];
+                l++;
+            }
+
+            cnt = cnt + (r - l + 1);
+            r++;
+        }
+        return cnt;
+    }
+
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        int ans1 = subArraysWithGoal(nums, goal);
+        int ans2 = subArraysWithGoal(nums, goal-1); 
+
+        return ans1 - ans2;       
+    }
+};
+
+
+🔹 LeetCode 930 – Binary Subarrays With Sum
+This problem requires counting the number of non-empty subarrays with a sum exactly equal to a given goal. The array contains only 0’s and 1’s.
+
+✅ Approach:
+
+The problem can be transformed into counting subarrays with sum ≤ goal and then using the inclusion-exclusion principle.
+
+We define a helper function subArraysWithGoal(nums, goal) which counts the number of subarrays with sum at most goal.
+
+Since the array contains only 0’s and 1’s, the sum of a subarray is effectively the count of 1’s in that subarray.
+
+Use a sliding window approach:
+
+Expand the window to the right, adding nums[r] to the sum.
+
+If the sum exceeds goal, shrink the window from the left until sum ≤ goal.
+
+At each step, add the number of valid subarrays ending at r which is (r - l + 1).
+
+To get the count of subarrays with sum exactly equal to goal, compute:
+
+numSubarraysWithSum(goal) = subArraysWithGoal(nums, goal) - subArraysWithGoal(nums, goal - 1)
+This subtraction removes all subarrays with sums less than goal, leaving only those with sum exactly goal.
+
+✅ Key Points:
+
+Sliding window technique works here because the array contains only 0’s and 1’s, making sum monotonic and manageable.
+
+Time Complexity: O(n) because each element is visited at most twice (once when expanding, once when shrinking the window).
+
+Space Complexity: O(1) extra space.
+
+🧑‍💻 You can easily adapt this approach to other languages using the same sliding window logic.

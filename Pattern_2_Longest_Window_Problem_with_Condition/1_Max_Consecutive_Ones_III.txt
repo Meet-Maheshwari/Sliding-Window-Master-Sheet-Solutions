@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        int maxLen = 0;
+        int l = 0, r = 0, zeros = 0;
+
+        while(r < nums.size()) {
+            if(nums[r] == 0) zeros++;
+
+            if(zeros > k) {
+                if(nums[l] == 0) zeros--;
+                l++;
+            }
+
+            if(zeros <= k) {
+                int len = r - l + 1;
+                maxLen = max(len, maxLen);
+            }
+            r++;
+        }
+        return maxLen;
+    }
+};
+
+
+🔹 LeetCode 1004 – Max Consecutive Ones III
+This problem fits into Pattern 2: Longest Window Problem with Condition.
+
+We are given a binary array nums and an integer k. We can flip at most k zeros to ones. The goal is to return the length of the longest subarray with all 1s after flipping at most k zeros.
+
+✅ Approach:
+
+Use the two-pointer/sliding window technique with l (left) and r (right) pointers.
+
+Maintain a count of the number of 0s in the current window.
+
+If the number of zeros exceeds k, shrink the window from the left until the condition becomes valid again.
+
+If the number of zeros is within the limit, calculate and update the maximum window size.
+
+✅ Key Points:
+
+Time Complexity: O(n)
+
+Space Complexity: O(1)
+
+Efficient in-place window expansion and shrinking based on a condition
+
+Does not require extra space or array copies
+
+🧑‍💻 Written in C++ and easily portable to other languages like Python or Java using the same logic.

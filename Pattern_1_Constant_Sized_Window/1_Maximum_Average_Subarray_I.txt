@@ -1,0 +1,49 @@
+class Solution {
+public:
+    double findMaxAverage(vector<int>& nums, int k) {
+        int n = nums.size();
+        if (k > n) return 0;
+
+        double sum = 0;
+        for(int i = 0; i < k; i++) sum += nums[i];
+        double maxAvg = sum / k;
+
+        for(int i = 1; i <= n-k; i++) {
+            sum = sum - nums[i-1] + nums[i+k-1];
+            double avg = sum / k;
+            maxAvg = max(avg, maxAvg);
+        }
+
+        return maxAvg;
+    }
+};
+
+
+🔹 LeetCode 643 – Maximum Average Subarray I
+This problem is part of the Sliding Window pattern focused on fixed-size subarrays.
+
+Given an integer array nums and an integer k, the goal is to find the contiguous subarray of length k that has the maximum average value and return that value.
+
+✅ Approach:
+
+Use a sliding window of fixed size k.
+
+Calculate the sum of the first k elements to initialize the window.
+
+Slide the window from left to right by removing the leftmost element and adding the next element on the right.
+
+After each slide, compute the average of the current window and update the maximum average if needed.
+
+Continue until the window reaches the end of the array.
+
+✅ Key Points:
+
+Sliding window size remains constant at k.
+
+Sum is updated in O(1) time for each window slide, avoiding recalculating sum from scratch.
+
+Time Complexity: O(n), where n is the length of nums.
+
+Space Complexity: O(1), only variables for sum and averages are maintained.
+
+🧑‍💻 The code is implemented in C++ but the fixed-size sliding window approach can be adapted to any language by maintaining a running sum and updating it efficiently.

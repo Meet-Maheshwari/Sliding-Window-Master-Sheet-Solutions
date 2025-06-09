@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int l = 0, r = 0, minLen = INT_MAX, sum = 0;
+
+
+        while(r < nums.size()) {
+            sum += nums[r];
+
+            while(sum >= target) {
+                minLen = min(minLen, r-l+1);
+                sum -= nums[l];
+                l++;
+            }
+
+            r++;
+        }
+
+        return minLen == INT_MAX ? 0 : minLen;
+    }
+};
+
+
+🔹 LeetCode 209 – Minimum Size Subarray Sum
+This problem belongs to Pattern 3: Smallest Window Problem with Condition.
+
+Given an array nums and a target sum target, the task is to find the length of the smallest contiguous subarray whose sum is at least target. If no such subarray exists, return 0.
+
+✅ Approach:
+
+Use a sliding window approach with two pointers l and r.
+
+Expand the window by moving r and adding nums[r] to the current sum.
+
+When the sum inside the window reaches or exceeds target, try to shrink the window from the left (l) to find the minimum length subarray satisfying the condition.
+
+Update the minimum length whenever the sum condition is met.
+
+Continue until the right pointer reaches the end of the array.
+
+✅ Key Points:
+
+Time Complexity: O(n) — each element is visited at most twice.
+
+Space Complexity: O(1) — only a few variables used.
+
+Efficiently finds the smallest window meeting the sum requirement by dynamically adjusting window size.
+
+🧑‍💻 The code is in C++ but can be easily adapted to other programming languages.

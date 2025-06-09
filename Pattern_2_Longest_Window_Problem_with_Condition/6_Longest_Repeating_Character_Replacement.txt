@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int l = 0, r = 0, maxFreq = 0, maxLen = 0;
+        unordered_map<int, int> hash(26);
+
+        while(r < s.size()) {
+            hash[s[r] - 'A']++;
+            maxFreq = max(hash[s[r]-'A'], maxFreq);
+
+            if((r-l+1)-maxFreq > k) {
+                hash[s[l]-'A']--;
+                l++;
+            }
+
+            if((r-l+1)-maxFreq <= k) {
+                maxLen = max(maxLen, (r-l+1));
+            }
+            r++;
+        }
+        
+
+        return maxLen;
+    }
+};
+
+
+🔹 LeetCode 424 – Longest Repeating Character Replacement
+This problem is part of Pattern 2: Longest Window Problem with Condition.
+
+Given a string s and an integer k, the task is to find the length of the longest substring where you can replace at most k characters to make all characters in the substring the same.
+
+✅ Approach:
+
+Use a sliding window with two pointers l and r.
+
+Maintain a frequency map (hash) of characters in the current window.
+
+Track the count of the most frequent character in the window (maxFreq).
+
+If the window size minus maxFreq is greater than k, it means more than k replacements are needed, so shrink the window from the left.
+
+Otherwise, update the maximum window length found.
+
+✅ Key Points:
+
+Time Complexity: O(n)
+
+Space Complexity: O(1) since the character set is fixed (uppercase English letters)
+
+Efficiently tracks frequency and max frequency to maintain a valid window
+
+Classic example of sliding window with condition based on character frequency
+
+🧑‍💻 Written in C++, but logic is easy to implement in other languages such as Python or Java.

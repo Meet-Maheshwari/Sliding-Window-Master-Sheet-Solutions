@@ -1,0 +1,59 @@
+class Solution {
+public:
+    int countSubArraysWithDistinct(vector<int>& nums, int k) {
+        if(k < 0) return 0;
+        int l = 0, r = 0, cnt = 0, n = nums.size();
+        unordered_map<int, int> map;
+
+        while(r < n) {
+            int num = nums[r];
+            if(!map.count(num)) {
+                map[num] = 1;
+            } else {
+                map[num]++;
+            }
+
+            while(map.size() > k) {
+                map[nums[l]]--;
+                if(map[nums[l]] == 0) map.erase(nums[l]);
+                l++; 
+            }
+
+            if(map.size() <= k) cnt = cnt + (r - l + 1);
+            r++;
+        }
+
+        return cnt;
+    }
+
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        int ans1 = countSubArraysWithDistinct(nums, k);
+        int ans2 = countSubArraysWithDistinct(nums, k-1);
+
+        return ans1 - ans2;
+    }
+};
+
+
+🔹 LeetCode 992 – Subarrays with K Different Integers
+This problem requires finding the number of subarrays that contain exactly k distinct integers.
+
+✅ Approach:
+
+We use the sliding window technique with a helper function that counts the number of subarrays with at most k distinct integers.
+
+The count of subarrays with exactly k distinct integers equals:
+
+count(at most k distinct) - count(at most (k-1) distinct)
+
+The helper function countSubArraysWithDistinct expands the window by moving the right pointer r and keeps track of the frequency of each element using a hashmap.
+
+When the number of distinct elements exceeds k, the left pointer l moves forward to shrink the window until it contains at most k distinct elements.
+
+For each valid window, we add the number of new subarrays ending at r (which is r - l + 1) to the count.
+
+✅ Complexity:
+
+Time Complexity: O(n), since each element is visited at most twice.
+
+Space Complexity: O(k), due to the hashmap storing counts of distinct elements.

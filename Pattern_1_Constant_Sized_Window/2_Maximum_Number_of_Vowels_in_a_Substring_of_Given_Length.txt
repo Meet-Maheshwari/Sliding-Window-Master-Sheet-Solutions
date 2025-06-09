@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int maxVowels(string s, int k) {
+        int n = s.size();
+        string str = "aeiou";
+        int cnt = 0;
+
+        for(int i = 0; i < k; i++) {
+            char ch = s[i];
+            if(str.find(ch) != string::npos)  cnt++;
+        }
+
+        int maxCnt = cnt;
+        for(int i = 1; i <= n-k; i++) {
+            if(str.find(s[i-1]) != string::npos) cnt--;
+            if(str.find(s[i+k-1]) != string::npos) cnt++;
+            if(cnt == k) return cnt;
+            maxCnt = max(maxCnt, cnt);
+        }
+
+        return maxCnt;
+     }
+};
+
+
+🔹 LeetCode 1456 – Maximum Number of Vowels in a Substring of Given Length
+This problem falls under Pattern 1: Constant Sized Window.
+
+We are given a string s and an integer k, and we need to find the maximum number of vowels in any substring of length k.
+
+✅ Approach:
+
+Use a sliding window of fixed size k to count vowels.
+
+Start by counting vowels in the initial window of size k.
+
+Then, for each subsequent window:
+
+Remove the effect of the character that slides out (i.e., check if it's a vowel and decrease the count).
+
+Add the effect of the character that slides in (i.e., check if it's a vowel and increase the count).
+
+Track and update the maximum count of vowels encountered.
+
+✅ Key Points:
+
+Time Complexity: O(n)
+
+Space Complexity: O(1)
+
+Efficient lookup using string::find() to check if a character is a vowel.
+
+Early return if a window contains all k vowels.
+
+🧑‍💻 This solution is written in C++, and the logic can be easily converted to any other language like Python or Java.

@@ -1,0 +1,58 @@
+class Solution {
+public:
+    int shortestSubarray(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<long long> prefix(n + 1, 0);
+        
+        for (int i = 0; i < n; ++i)
+            prefix[i + 1] = prefix[i] + nums[i];
+
+        deque<int> dq;
+        int minLen = n + 1;
+
+        for (int i = 0; i <= n; ++i) {
+            while (!dq.empty() && prefix[i] - prefix[dq.front()] >= k) {
+                minLen = min(minLen, i - dq.front());
+                dq.pop_front();
+            }
+
+            while (!dq.empty() && prefix[i] <= prefix[dq.back()]) {
+                dq.pop_back();
+            }
+
+            dq.push_back(i);
+        }
+
+        return (minLen <= n) ? minLen : -1;
+    }
+};
+
+
+🔹 LeetCode 862 – Shortest Subarray with Sum at Least K
+Given an integer array nums and an integer k, the task is to find the length of the shortest, non-empty, contiguous subarray of nums with a sum at least k. If no such subarray exists, return -1.
+
+✅ Approach:
+
+Use a prefix sum array prefix where prefix[i] is the sum of the first i elements of nums.
+
+The goal is to find the minimum length j - i where prefix[j] - prefix[i] >= k.
+
+Maintain a monotonic deque to store indices of the prefix sums in increasing order.
+
+For each prefix[i], remove indices from the front of the deque while the difference prefix[i] - prefix[dq.front()] >= k to update the minimum length.
+
+Also, maintain the deque to keep prefix sums in increasing order by removing indices from the back if their prefix sum is greater than or equal to the current prefix sum.
+
+This ensures efficient processing in O(n) time.
+
+✅ Key Points:
+
+The deque helps to quickly find the earliest prefix sum that forms a valid subarray sum with the current prefix sum.
+
+The prefix sums are long long type to prevent integer overflow for large sums.
+
+Time Complexity: O(n) because each index is pushed and popped at most once.
+
+Space Complexity: O(n) for the prefix sum array and the deque.
+
+🧑‍💻 The logic can be implemented similarly in other programming languages using the same sliding window and monotonic queue technique.

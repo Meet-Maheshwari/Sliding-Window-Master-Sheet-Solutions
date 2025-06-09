@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int maxScore(vector<int>& cardPoints, int k) {
+        int ans = 0, n = cardPoints.size();
+
+        int leftSum = 0, rightSum = 0, maxSum = 0;
+
+        for(int i = 0; i < k; i++) {
+            leftSum += cardPoints[i];
+        }
+        ans = max(ans, leftSum + rightSum);
+        
+        int l = k-1, r = n-1;
+
+        while(l >= 0) {
+            leftSum -= cardPoints[l];
+            rightSum += cardPoints[r];
+            l--;
+            r--;
+            ans = max(ans, leftSum + rightSum);
+        }
+
+        return ans;
+    }
+};
+
+
+🔹 LeetCode 1423 – Maximum Points You Can Obtain from Cards
+This problem is categorized under Pattern 2: Longest Window Problem with Condition.
+
+Given an array cardPoints and an integer k, the task is to pick exactly k cards from either the beginning or the end of the array to maximize the total points.
+
+✅ Approach:
+
+Use a two-pointer sliding window technique.
+
+First, sum up the first k cards (all taken from the left).
+
+Then gradually shift the window by taking fewer cards from the left and more from the right, updating the total score each time.
+
+Track the maximum sum obtained during this process.
+
+✅ Key Points:
+
+Time Complexity: O(k)
+
+Space Complexity: O(1)
+
+Efficiently combines prefix sums from the left and suffix sums from the right using pointers.
+
+This problem is a great example of a sliding window with a fixed total size but variable partitioning between the two ends.
+
+🧑‍💻 Code is written in C++ but the logic is easily translatable to other languages.

@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        unordered_map<int, int>m;
+        m[0] = 1;
+        int sum = 0;
+        int ans = 0;
+
+        for(int j = 0; j < nums.size(); j++) {
+            sum += nums[j];
+
+            if(m.count(sum - k)) {
+                ans += m[sum-k];
+            }
+
+            if(m.count(sum)) {
+                m[sum]++;
+            } else {
+                m[sum] = 1;
+            }
+        }
+
+        return ans;
+    }
+};
+
+🔹 LeetCode 560 – Subarray Sum Equals K
+This problem falls under Pattern 4: Counting Subarray/Substring Problems.
+
+We are given an integer array nums and an integer k. The task is to return the total number of continuous subarrays whose sum equals k.
+
+✅ Approach:
+
+Use a prefix sum strategy with a hash map to track how often each cumulative sum has occurred.
+
+For each element, calculate the running sum. If (sum - k) exists in the map, it means a subarray ending at the current index has a total sum of k.
+
+Add the count of (sum - k) occurrences to the answer.
+
+Update the frequency map with the current running sum.
+
+✅ Key Points:
+
+Time Complexity: O(n)
+
+Space Complexity: O(n) due to the hash map
+
+Handles negative numbers (unlike sliding window approaches which assume all positive elements)
+
+Elegant use of cumulative sum + hashmap technique
+
+🧑‍💻 Written in C++, but the logic is easy to adapt for Python, Java, or any other language.

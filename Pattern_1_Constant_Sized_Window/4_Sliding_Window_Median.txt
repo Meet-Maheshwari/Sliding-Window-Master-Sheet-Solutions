@@ -1,0 +1,109 @@
+class Solution {
+private:
+    priority_queue<int> lo;
+    priority_queue<int, vector<int>, greater<int>> hi;
+    unordered_map<int, int> delayed;
+    int loSize = 0, hiSize = 0;
+
+    void prune(priority_queue<int>& heap) {
+        while (!heap.empty() && delayed[heap.top()]) {
+            delayed[heap.top()]--;
+            heap.pop();
+        }
+    }
+
+    void balance() {
+        if (loSize > hiSize + 1) {
+            hi.push(lo.top());
+            lo.pop();
+            loSize--; hiSize++;
+            prune(lo);
+        } else if (hiSize > loSize) {
+            lo.push(hi.top());
+            hi.pop();
+            hiSize--; loSize++;
+            prune(hi);
+        }
+    }
+
+public:
+    vector<double> medianSlidingWindow(vector<int>& nums, int k) {
+        vector<double> res;
+
+        for (int i = 0; i < nums.size(); ++i) {
+            int num = nums[i];
+
+            if (lo.empty() || num <= lo.top()) {
+                lo.push(num); loSize++;
+            } else {
+                hi.push(num); hiSize++;
+            }
+
+            if (i >= k) {
+                int out = nums[i - k];
+                delayed[out]++;
+
+                if (out <= lo.top()) loSize--;
+                else hiSize--;
+
+                // Prune lazy-deleted elements
+                prune(lo);
+                prune(hi);
+            }
+
+            balance();
+
+            if (i >= k - 1) {
+                if (k % 2 == 1) {
+                    res.push_back(lo.top());
+                } else {
+                    res.push_back(((double)lo.top() + hi.top()) / 2.0);
+                }
+            }
+        }
+
+        return res;
+    }
+};
+
+
+🔹 LeetCode 480 – Sliding Window Median
+This question belongs to Pattern 1: Constant Sized Window.
+
+We are given an array nums and an integer k, and the task is to return the median of every sliding window of size k.
+
+✅ Approach:
+
+Use two heaps to efficiently track the median:
+
+lo (max-heap): stores the smaller half
+
+hi (min-heap): stores the larger half
+
+Maintain the size of each heap so that their sizes differ by at most 1.
+
+Use a lazy deletion strategy using a delayed map to defer deletion of elements that fall out of the window.
+
+Every time the window slides:
+
+Remove the outgoing element by marking it in delayed.
+
+Rebalance and prune the heaps accordingly.
+
+Compute the median:
+
+If k is odd, the median is the top of the lo heap.
+
+If k is even, the median is the average of the tops of lo and hi.
+
+✅ Key Points:
+
+Time Complexity: O(n log k)
+
+Space Complexity: O(k)
+
+Handles duplicates and sliding efficiently using lazy deletion
+
+Median extraction is always O(1) after balancing
+
+🧑‍💻 This solution is written in C++, and can be translated to other languages that support priority queues with custom comparators.

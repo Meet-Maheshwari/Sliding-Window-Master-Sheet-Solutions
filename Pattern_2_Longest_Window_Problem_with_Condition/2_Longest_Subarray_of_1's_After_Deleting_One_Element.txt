@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int l = 0, r = 0, zeros = 0, maxLen = 0; 
+
+        while(r < nums.size()) {
+            if(nums[r] == 0) zeros++;
+
+            if(zeros > 1) {
+                if(nums[l] == 0) zeros--;
+                l++;
+            }
+
+            if(zeros <= 1) {
+                int len = r - l + 1;
+                maxLen = max(len, maxLen); 
+            }
+            r++;
+        }
+
+        return maxLen - 1;
+    }
+};
+
+
+🔹 LeetCode 1493 – Longest Subarray of 1's After Deleting One Element
+This problem falls under Pattern 2: Longest Window Problem with Condition.
+
+We are given a binary array nums, and we must return the length of the longest subarray of 1’s after deleting exactly one element.
+
+✅ Approach:
+
+Use the sliding window / two-pointer technique with l and r to define a window.
+
+Track the number of zeros (zeros) in the current window.
+
+We are allowed to have at most one zero, since one element must be deleted.
+
+If zeros > 1, shrink the window from the left (l++) and adjust the zero count accordingly.
+
+Maintain and update the maximum valid window size.
+
+At the end, subtract 1 from the length to simulate deleting one element (as required by the problem).
+
+✅ Key Points:
+
+Time Complexity: O(n)
+
+Space Complexity: O(1)
+
+Efficient window resizing by handling zero count on-the-fly
+
+Handles edge cases where no 0 needs to be deleted or the entire array is 1s
+
+🧑‍💻 Implemented in C++, but can be easily translated to Python or Java following the same logic.

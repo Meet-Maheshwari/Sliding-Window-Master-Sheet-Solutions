@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int minOperations(vector<int>& nums, int x) {
+        int l = 0, r = 0, sum = 0, maxLen = 0;
+        int totalSum = accumulate(nums.begin(), nums.end(), 0);
+        if (totalSum == x) return nums.size();
+        int target = totalSum - x;
+
+        while(r < nums.size()) {
+            sum += nums[r];
+
+            while(l < r && sum > target) {
+                sum -= nums[l];
+                l++;
+            }
+
+            if(sum == target) {
+                maxLen = max(maxLen, (r-l+1));
+            }
+            r++;
+        }
+
+        return maxLen == 0 ? -1 : nums.size()-maxLen;
+    }
+};
+
+
+🔹 LeetCode 1658 – Minimum Operations to Reduce X to Zero
+Given an integer array nums and an integer x, the goal is to find the minimum number of operations to reduce x to exactly zero by removing elements from either the start or the end of the array.
+
+✅ Approach:
+
+The problem can be reframed as finding the longest subarray in nums whose sum is equal to totalSum - x, where totalSum is the sum of all elements in nums.
+
+Why? Because removing elements from the start and end to reduce x is equivalent to keeping a middle subarray summing to totalSum - x.
+
+Use a sliding window to find the longest subarray with sum equal to target = totalSum - x.
+
+Maintain two pointers l and r to expand and shrink the window.
+
+Keep track of the longest valid window length.
+
+Finally, return the minimum operations as nums.size() - maxLen since those outside the window are removed.
+
+✅ Key Points:
+
+Uses sliding window technique to efficiently find the longest subarray with a given sum.
+
+If no such subarray exists, return -1.
+
+Time Complexity: O(n) where n is the size of nums.
+
+Space Complexity: O(1).
+
+🧑‍💻 The solution is implemented in C++ but the logic is language-agnostic and can be adapted easily.

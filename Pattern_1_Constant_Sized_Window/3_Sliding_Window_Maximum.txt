@@ -1,0 +1,57 @@
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        int n = nums.size();
+        priority_queue<pair<int, int>>pq;
+        vector<int> maxSlidingWindow;
+
+        for(int i = 0; i < k; i++) {
+            pq.push(make_pair(nums[i], i)); //pair of value and index;
+        }
+        maxSlidingWindow.push_back(pq.top().first);
+
+        for(int i = k; i < n; i++) {
+            while(!pq.empty() && pq.top().second <= i-k){
+                pq.pop();
+            }
+            pq.push(make_pair(nums[i], i));
+            maxSlidingWindow.push_back(pq.top().first);
+        }
+
+        return maxSlidingWindow;
+    }
+};
+
+
+🔹 LeetCode 239 – Sliding Window Maximum
+This question is based on Pattern 1: Constant Sized Window.
+
+We are given an array nums and an integer k. The task is to return the maximum element in every contiguous subarray of size k.
+
+✅ Approach:
+
+Use a max heap (priority_queue) to store elements along with their indices in the form of (value, index).
+
+For the first window of size k, insert all elements into the heap.
+
+After the first window, for each new element:
+
+Remove all elements from the heap that fall outside the current window (i.e., their index ≤ i - k)
+
+Insert the current element into the heap
+
+The top of the heap gives the maximum element for the current window
+
+Add this max to the result list.
+
+✅ Key Points:
+
+Time Complexity: O(n log k) due to heap operations
+
+Space Complexity: O(k) for the heap
+
+Efficient way to get max in a sliding window using heap
+
+Works well when k is small or moderate; for large k, a deque approach is more optimal (O(n))
+
+🧑‍💻 This is a C++ implementation using priority_queue (max-heap), and the logic is portable across other languages that support heaps.

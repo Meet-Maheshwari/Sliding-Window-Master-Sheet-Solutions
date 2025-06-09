@@ -1,0 +1,54 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.size();
+        unordered_map<char, int> map;
+        int l = 0, r = 0, maxLen = 0;
+
+        while(r < n) {
+            char ch = s[r];
+
+            if(!map.count(ch)) {
+                map[ch] = r;
+            } else {
+                l = max(map[ch] + 1, l);
+                map[ch] = r;
+            }
+
+            int len = r - l + 1;
+            maxLen = max(len, maxLen);
+            r++;
+        }
+        return maxLen;
+    }
+};
+
+
+🔹 LeetCode 3 – Longest Substring Without Repeating Characters
+This problem belongs to Pattern 2: Longest Window Problem with Condition.
+
+We need to find the length of the longest substring in a given string s that contains no repeating characters.
+
+✅ Approach:
+
+Use a sliding window approach with two pointers l (left) and r (right).
+
+Maintain a hash map that stores the latest index of each character in the current window.
+
+As you iterate with r, if the current character is already in the map, move l to the position after the last occurrence of that character to avoid duplicates.
+
+Update the character’s latest index to the current position r.
+
+Track and update the maximum window length found during the process.
+
+✅ Key Points:
+
+Time Complexity: O(n)
+
+Space Complexity: O(min(n, charset)) where charset is the number of unique characters
+
+Efficiently handles duplicates by jumping the left pointer forward
+
+Ideal sliding window technique to find substring problems with constraints on distinct characters
+
+🧑‍💻 Implemented in C++, easily adaptable to Python, Java, or other languages.

@@ -1,0 +1,65 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int l = 0, r = 0, cnt = 0, sIdx = -1, n = t.size(), minLen = INT_MAX;
+        unordered_map<int, int> map;
+
+        for(int el : t) {
+            map[el]++;
+        }
+
+        while(r < s.size()) {
+            if(map[s[r]] > 0) {
+                cnt++;
+            } 
+            map[s[r]]--;
+
+            while(cnt == n) {
+                if((r-l+1) < minLen) {
+                    minLen = (r-l+1);
+                    sIdx = l;
+                }
+                map[s[l]]++;
+                if(map[s[l]] > 0) {
+                    cnt--;
+                }
+                l++;
+            }
+            r++;
+        }
+
+        return sIdx == -1 ? "" : s.substr(sIdx, minLen);
+    }
+};
+
+
+🔹 LeetCode 76 – Minimum Window Substring
+This problem is part of Pattern 3: Smallest Window Problem with Condition.
+
+Given two strings s and t, the goal is to find the smallest substring in s which contains all the characters of t (including duplicates). If no such substring exists, return an empty string.
+
+✅ Approach:
+
+Use two pointers l and r to create a sliding window over string s.
+
+Maintain a frequency map of characters required from t.
+
+Expand the right pointer r to include characters, decreasing their count in the map.
+
+When the current window contains all characters of t (cnt == n), try to shrink the window from the left (l) to minimize its size while still satisfying the condition.
+
+Track the smallest valid window and its starting index.
+
+If no valid window is found, return an empty string.
+
+✅ Key Points:
+
+Uses a frequency map and a count of matched characters to efficiently track window validity.
+
+Shrinks the window only when all characters are included, ensuring minimum size.
+
+Time Complexity: O(m + n), where m and n are lengths of s and t.
+
+Space Complexity: O(1) assuming character set is fixed (e.g., ASCII).
+
+🧑‍💻 The code is written in C++ but can be adapted to other languages by applying the same sliding window logic and frequency tracking.

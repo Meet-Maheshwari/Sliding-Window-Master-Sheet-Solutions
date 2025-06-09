@@ -1,0 +1,60 @@
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        int l = 0, r = 0;
+        int maxLen = 0;
+
+        unordered_map<int, int> hash ;//fruit, count;
+
+        while(r < fruits.size()) {
+            int fruit = fruits[r];
+
+            if(hash.count(fruit)) {
+                hash[fruit]++;
+            } else {
+                hash[fruit] = 1;
+            }
+            if(hash.size() > 2) {
+                hash[fruits[l]]--;
+                if(hash[fruits[l]] == 0) hash.erase(fruits[l]);
+                l++;
+            }
+
+            int len = r - l + 1;
+            maxLen = max(maxLen, len);
+            r++;
+        }
+
+        return maxLen;
+    }
+};
+
+
+🔹 LeetCode 904 – Fruit Into Baskets
+This problem is part of Pattern 2: Longest Window Problem with Condition.
+
+We are given an array fruits, where each integer represents a type of fruit. We can only carry at most 2 types of fruits at once, and we must pick fruits from contiguous trees. The task is to return the maximum number of fruits we can collect.
+
+✅ Approach:
+
+Use a sliding window approach with two pointers l (left) and r (right).
+
+Maintain a hash map to store the count of each fruit type in the current window.
+
+Expand the window by moving r and adding the fruit to the map.
+
+If the map size exceeds 2 (more than 2 types), shrink the window from the left until only 2 types remain.
+
+Update the maxLen after each valid window.
+
+✅ Key Points:
+
+Time Complexity: O(n)
+
+Space Complexity: O(1) (since the map holds at most 3 keys at any time)
+
+Classic application of the "at most K distinct elements in window" sliding window template
+
+Efficient use of hash map to track types and counts of fruits
+
+🧑‍💻 Implemented in C++, but easily translatable to other languages like Python or Java.

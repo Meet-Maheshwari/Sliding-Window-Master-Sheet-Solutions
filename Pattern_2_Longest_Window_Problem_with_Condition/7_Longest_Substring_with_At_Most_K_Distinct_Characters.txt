@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int kDistinctChar(string& s, int k) {
+        //your code goes here
+        unordered_map<char, int> map;
+
+        int l = 0, r = 0, maxLen = 0;
+
+        while(r < s.size()) {
+            map[s[r]]++;
+
+            if(map.size() > k) {
+                map[s[l]]--;
+                if(map[s[l]] == 0) { map.erase(s[l]); }
+                l++;
+            }
+
+            if(map.size() <= k) {
+                int len = r - l + 1;
+                maxLen = max(len, maxLen);
+            }
+            r++;
+        } 
+        return maxLen;
+    }
+};
+
+
+🔹 LeetCode 340 – Longest Substring with At Most K Distinct Characters
+This problem falls under Pattern 2: Longest Window Problem with Condition.
+
+Given a string s and an integer k, the task is to find the length of the longest substring that contains at most k distinct characters.
+
+✅ Approach:
+
+Use a sliding window approach with two pointers l (left) and r (right).
+
+Maintain a frequency map of characters currently in the window.
+
+Expand the window by moving r and updating the character counts.
+
+When the number of distinct characters exceeds k, shrink the window from the left until it contains at most k distinct characters again.
+
+Track the maximum window length found during this process.
+
+✅ Key Points:
+
+Time Complexity: O(n)
+
+Space Complexity: O(k) for the frequency map
+
+Dynamically adjusts the window size to satisfy the constraint on distinct characters
+
+Ideal sliding window problem involving hashmap and dynamic window resizing
+
+🧑‍💻 Implemented in C++ but straightforward to adapt in other languages such as Python or Java.
