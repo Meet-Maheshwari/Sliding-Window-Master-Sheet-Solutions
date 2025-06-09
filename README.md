@@ -6,7 +6,7 @@ This repository contains structured solutions to the most important and frequent
 
 - ✅ Optimized **C++ solution**
 - 💡 Clear **code explanation**
-- 📌 Problem **tags** and **LeetCode link**
+- 📌 Problem **tags**
 - 📚 Useful for **interview prep** and **competitive coding**
 
 > 🔁 You can easily adapt the logic for **Java, Python, or JavaScript** by understanding the code and comments.
